@@ -11,11 +11,11 @@ if (process.argv.length !== 3) {
 var token = process.argv[2];
 var bot_id = 'c79491442177436efbbc76f304';
 
-var justPrintEverythingCallback = function(err, ret) {
+var botCallback = function(err, ret) {
     if (!err) {
-        console.log(JSON.stringify(ret, null, " "));
+        console.log(JSON.stringify(ret, null, ''));
     } else {
-        console.log("ERROR!", err)
+        console.warn('botCallback:', err);
     }
 }
 
@@ -30,6 +30,7 @@ var server = http.createServer(function(req, res) {
     req.on('data', function (data) {
         body += data;
         if (body.length > 1e6) {
+            body = '';
             req.connection.destroy();
         }
     });
@@ -37,7 +38,9 @@ var server = http.createServer(function(req, res) {
     req.on('end', function () {
         console.log(body);
         var pusher = JSON.parse(body).pusher.name;
-        groupme.Bots.post(token, bot_id, pusher, {}, justPrintEverythingCallback);
+        if (pusher !== null) {
+            groupme.Bots.post(token, bot_id, pusher, {}, botCallback);
+        }
     });
   }
   
