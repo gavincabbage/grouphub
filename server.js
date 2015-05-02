@@ -1,12 +1,12 @@
 // server.js
 // usage: node server.js AUTH_TOKEN
 
+var fs = require('fs');
+var secrets = JSON.parse(fs.readFileSync('secrets.json', 'utf8'));
+
 var http = require('http');
 var groupme = require('groupme').Stateless;
-
-if (process.argv.length !== 3) {
-    process.exit(1);
-}
+var github = require('github-webhook-handler')({ path: '/', secret: secrets.secret });
 
 var token = process.argv[2];
 var bot_id = 'c79491442177436efbbc76f304';
@@ -15,37 +15,25 @@ var botCallback = function(err, ret) {
     if (!err) {
         console.log(JSON.stringify(ret, null, ''));
     } else {
-        console.warn('botCallback:', err);
+        console.warn('botCallback error:', err);
     }
 }
 
+github.on('push', function (event) {
+    
+    console.log('Received a push event for %s to %s from %s',
+        event.payload.repository.name,
+        event.payload.ref,
+        event.payload.pusher.name);
+        
+    groupme.Bots.post(token, bot_id, event.payload.pusher.name, {}, botCallback);
+})
 
-var server = http.createServer(function(req, res) {
-  
-  if (req.method === 'POST') {
-      
-    console.log('got a POST request');
-    var body = '';
-    
-    req.on('data', function (data) {
-        body += data;
-        if (body.length > 1e6) {
-            body = '';
-            req.connection.destroy();
-        }
-    });
-    
-    req.on('end', function () {
-        console.log(body)
-        var pusher = JSON.parse(body).pusher.name;
-        if (pusher !== null) {
-            groupme.Bots.post(bot_id, pusher, {}, botCallback);
-        }
-    });
-  }
-  
-  res.writeHead(200);
-  res.end();
+var server = http.createServer(function (req, res) {
+    github(req, res, function (err) {
+        res.statusCode = 404;
+        res.end();
+    })
 });
 
 server.listen(process.env.PORT, process.env.IP);

@@ -6,6 +6,7 @@
   "repository": "https://github.com/gavincabbage/gitme",
   "author": "Gavin Cabbage <gavincabbage>",
   "dependencies": {
-    "groupme": "*"
+    "groupme": "*",
+    "github-webhook-handler": "*"
   }
 }
