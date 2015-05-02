@@ -23,6 +23,7 @@ var justPrintEverythingCallback = function(err, ret) {
 var server = http.createServer(function(req, res) {
   
   if (req.method === 'POST') {
+      
     console.log('got a POST request');
     var body = '';
     
