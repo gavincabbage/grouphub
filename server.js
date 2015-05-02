@@ -14,9 +14,8 @@ var opts =
   { 
     message: 
     {
-      source_guid: '123', 
-      text: 'test message', 
-      attachments: []
+      source_guid: '234', 
+      text: 'test message'
     }
   };
 
