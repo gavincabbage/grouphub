@@ -1,7 +1,6 @@
 // server.js
 // usage: node server.js AUTH_TOKEN
 
-
 var http = require('http');
 var groupme = require('groupme').Stateless;
 
