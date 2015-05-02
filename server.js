@@ -39,7 +39,7 @@ var server = http.createServer(function(req, res) {
         console.log(body);
         var pusher = JSON.parse(body).pusher.name;
         if (pusher !== null) {
-            groupme.Bots.post(token, bot_id, pusher, {}, botCallback);
+            groupme.Bots.post(bot_id, pusher, {}, botCallback);
         }
     });
   }
@@ -48,4 +48,4 @@ var server = http.createServer(function(req, res) {
   res.end();
 });
 
-server.listen(process.env.PORT, process.env.IP)
+server.listen(process.env.PORT, process.env.IP);
