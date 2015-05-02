@@ -38,8 +38,6 @@ var server = http.createServer(function(req, res) {
         var pusher = JSON.parse(body).pusher.name;
         groupme.Bots.post(token, bot_id, pusher, {}, justPrintEverythingCallback);
     });
-
-    groupme.Bots.post(token, bot_id, 'testing bot', {}, justPrintEverythingCallback);
   }
   
   res.writeHead(200);
