@@ -1,9 +1,11 @@
 {
   "name": "gitme",
-  "version": "0.1",
+  "version": "0.0.1",
   "description": "gitme - GitHub notifications via GroupMe",
   "main": "server.js",
   "repository": "https://github.com/gavincabbage/gitme",
   "author": "Gavin Cabbage <gavincabbage>",
-  "dependencies": {}
+  "dependencies": {
+    "groupme": "*"
+  }
 }
