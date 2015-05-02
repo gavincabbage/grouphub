@@ -24,7 +24,7 @@ var server = http.createServer(function(req, res) {
   
   if (req.method === 'POST') {
     console.log('got a POST request');
-    var body;
+    var body = '';
     
     req.on('data', function (data) {
         body += data;
