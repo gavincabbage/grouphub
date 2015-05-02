@@ -22,7 +22,6 @@ var justPrintEverythingCallback = function(err, ret) {
 var server = http.createServer(function(req, res) {
   if (req.method === 'POST') {
     console.log('got a POST request');
-    console.log(req);
     var text = req.body;
     console.log('TEXT: \n' + text);
     groupme.Bots.post(token, bot_id, text, {}, justPrintEverythingCallback);
