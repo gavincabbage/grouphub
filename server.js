@@ -9,15 +9,7 @@ if (process.argv.length !== 3) {
 }
 
 var token = process.argv[2];
-var group = 13781399;
-var opts = 
-  { 
-    message: 
-    {
-      source_guid: '234', 
-      text: 'test message'
-    }
-  };
+var bot_id = 'c79491442177436efbbc76f304';
 
 var justPrintEverythingCallback = function(err, ret) {
   if (!err) {
@@ -30,7 +22,8 @@ var justPrintEverythingCallback = function(err, ret) {
 var server = http.createServer(function(req, res) {
   if (req.method === 'POST') {
     console.log('got a POST request');
-    groupme.Messages.create(token, group, opts, justPrintEverythingCallback);
+    var text = req.body;
+    groupme.Bots.post(token, bot_id, text, null, justPrintEverythingCallback);
   }
   res.writeHead(200);
   res.end();
