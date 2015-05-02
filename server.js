@@ -28,16 +28,17 @@ var server = http.createServer(function(req, res) {
     
     req.on('data', function (data) {
         body += data;
-        // Too much POST data, kill the connection!
         if (body.length > 1e6) {
-        request.connection.destroy();
+            req.connection.destroy();
         }
     });
     
     req.on('end', function () {
         console.log(body);
         var pusher = body.pusher.name;
+        console.log('HERE A');
         groupme.Bots.post(token, bot_id, pusher, {}, justPrintEverythingCallback);
+        console.log('HERE B');
     });
 
     groupme.Bots.post(token, bot_id, 'testing bot', {}, justPrintEverythingCallback);
