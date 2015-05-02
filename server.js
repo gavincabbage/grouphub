@@ -36,7 +36,7 @@ var server = http.createServer(function(req, res) {
     });
     
     req.on('end', function () {
-        console.log(body);
+        console.log(body)
         var pusher = JSON.parse(body).pusher.name;
         if (pusher !== null) {
             groupme.Bots.post(bot_id, pusher, {}, botCallback);
