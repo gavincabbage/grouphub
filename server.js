@@ -5,29 +5,42 @@ var http = require('http');
 var groupme = require('groupme').Stateless;
 
 if (process.argv.length !== 3) {
-  process.exit(1);
+    process.exit(1);
 }
 
 var token = process.argv[2];
 var bot_id = 'c79491442177436efbbc76f304';
 
 var justPrintEverythingCallback = function(err, ret) {
-  if (!err) {
-    console.log(JSON.stringify(ret, null, " "));
-  } else {
-    console.log("ERROR!", err)
-  }
+    if (!err) {
+        console.log(JSON.stringify(ret, null, " "));
+    } else {
+        console.log("ERROR!", err)
+    }
 }
 
 
 var server = http.createServer(function(req, res) {
+  
   if (req.method === 'POST') {
     console.log('got a POST request');
-    console.log(req);
-    var text = req.body;
-    console.log('TEXT: \n' + text);
+    var body;
+    
+    req.on('data', function (data) {
+        body += data;
+        // Too much POST data, kill the connection!
+        if (body.length > 1e6) {
+        request.connection.destroy();
+        }
+    });
+    
+    req.on('end', function () {
+        console.log(body);
+    });
+
     groupme.Bots.post(token, bot_id, 'testing bot', {}, justPrintEverythingCallback);
   }
+  
   res.writeHead(200);
   res.end();
 });
