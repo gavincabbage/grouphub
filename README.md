@@ -1,2 +1,5 @@
-# gitme
+# grouphub
+
 GitHub notifications via GroupMe
+
+
