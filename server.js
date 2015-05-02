@@ -24,6 +24,7 @@ var server = http.createServer(function(req, res) {
     console.log('got a POST request');
     console.log(req);
     var text = req.body;
+    console.log('TEXT: \n' + text);
     groupme.Bots.post(token, bot_id, text, {}, justPrintEverythingCallback);
   }
   res.writeHead(200);
